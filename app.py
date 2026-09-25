@@ -87,7 +87,7 @@ st.markdown("""
 }
 
 .block-container {
-    padding-top: 1rem;
+    padding-top: 5.8rem;
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -184,13 +184,16 @@ pre, code {
 }
 
 @media (max-width: 700px) {
+    .block-container {
+        padding-top: 6.4rem !important;
+    }
 
     div[data-testid="stMarkdownContainer"] p {
         line-height: 1.45 !important;
     }
 
     h1 { font-size: 1.55rem !important; margin-top: 0 !important; padding-top: 0 !important; }
-    h2 { font-size: 1.45rem !important; }
+    h2 { font-size: 1.32rem !important; }
     h3 { font-size: 1.2rem !important; }
 
     .block-container {
