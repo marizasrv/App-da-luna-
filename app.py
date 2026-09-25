@@ -305,42 +305,87 @@ with tabs[3]:
         st.success(f"Você acertou {score} de 3! 🌟")
 
 
+
 with tabs[4]:
     st.header("🧩 Jogos da Luna")
 
-    st.subheader("🔤 Complete a palavra")
-    palavra = st.text_input("Complete: E _ T R E L A", key="jogo_palavra")
-    if st.button("Conferir palavra", key="btn_palavra"):
-        if palavra.strip().upper() == "S":
-            st.success("Muito bem! ⭐ A palavra é ESTRELA.")
-        else:
-            st.info("Tente outra vez. A letra que falta vem depois do E.")
-
-    st.divider()
-
-    st.subheader("🔢 Qual número vem depois?")
-    numero = st.radio("2, 3, 4, ___", ["5", "6", "7"], key="seq_num")
-    if st.button("Conferir sequência", key="btn_seq"):
-        if numero == "5":
-            st.success("Correto! 🎉")
-        else:
-            st.info("Observe a sequência e tente novamente.")
-
-    st.divider()
-
-    st.subheader("🌙 Jogo rápido de memória")
-    st.write("Memorize: 🌙 🐰 ⭐ 📖")
-    memoria = st.multiselect(
-        "Agora escolha os quatro símbolos que apareceram:",
-        ["🌙", "🐰", "⭐", "📖", "🍎", "🚗"],
-        key="memoria_rapida"
+    jogo = st.selectbox(
+        "Escolha um jogo:",
+        [
+            "🔤 Complete a palavra",
+            "🔢 Qual número vem depois?",
+            "🧠 Memória rápida",
+            "👀 Qual é diferente?",
+            "🔗 Ligue a palavra ao símbolo",
+            "⭐ Conte as estrelas",
+            "✅ Verdadeiro ou falso",
+            "🎯 Acerte a sequência",
+        ],
+        key="seletor_jogos"
     )
-    if st.button("Ver resultado da memória", key="btn_mem"):
-        certos = {"🌙", "🐰", "⭐", "📖"}
-        if set(memoria) == certos:
-            st.success("Parabéns! Você lembrou de todos. 🧠✨")
-        else:
-            st.info("Quase! Tente lembrar dos símbolos da Luna.")
+
+    if jogo == "🔤 Complete a palavra":
+        st.subheader("🔤 Complete a palavra")
+        palavra = st.text_input("Complete: E _ T R E L A", key="jogo_palavra")
+        if st.button("Conferir palavra", key="btn_palavra"):
+            if palavra.strip().upper() == "S":
+                st.success("Muito bem! ⭐ A palavra é ESTRELA.")
+            else:
+                st.info("Tente outra vez. A letra que falta é S.")
+
+    elif jogo == "🔢 Qual número vem depois?":
+        st.subheader("🔢 Qual número vem depois?")
+        numero = st.radio("2, 3, 4, ___", ["5", "6", "7"], key="seq_num")
+        if st.button("Conferir sequência", key="btn_seq"):
+            st.success("Correto! 🎉" if numero == "5" else "Observe a sequência e tente novamente.")
+
+    elif jogo == "🧠 Memória rápida":
+        st.subheader("🧠 Memória rápida")
+        st.write("Memorize: 🌙 🐰 ⭐ 📖")
+        memoria = st.multiselect(
+            "Escolha os quatro símbolos que apareceram:",
+            ["🌙", "🐰", "⭐", "📖", "🍎", "🚗"],
+            key="memoria_rapida"
+        )
+        if st.button("Ver resultado", key="btn_mem"):
+            certos = {"🌙", "🐰", "⭐", "📖"}
+            if set(memoria) == certos:
+                st.success("Parabéns! Você lembrou de todos. 🧠✨")
+            else:
+                st.info("Quase! Tente novamente.")
+
+    elif jogo == "👀 Qual é diferente?":
+        st.subheader("👀 Qual é diferente?")
+        escolha = st.radio("Encontre o símbolo diferente:", ["⭐", "⭐", "🌙", "⭐"], key="diferente")
+        if st.button("Conferir", key="btn_diferente"):
+            st.success("Isso! A lua é diferente. 🌙" if escolha == "🌙" else "Tente novamente.")
+
+    elif jogo == "🔗 Ligue a palavra ao símbolo":
+        st.subheader("🔗 Ligue a palavra ao símbolo")
+        opcao = st.selectbox("Qual símbolo combina com a palavra COELHO?", ["🌙", "🐰", "📖"], key="liga")
+        if st.button("Conferir ligação", key="btn_liga"):
+            st.success("Muito bem! 🐰" if opcao == "🐰" else "Tente de novo.")
+
+    elif jogo == "⭐ Conte as estrelas":
+        st.subheader("⭐ Conte as estrelas")
+        st.write("⭐ ⭐ ⭐ ⭐ ⭐ ⭐")
+        qtd = st.number_input("Quantas estrelas aparecem?", min_value=0, max_value=10, step=1, key="conta_jogo")
+        if st.button("Conferir contagem", key="btn_conta_jogo"):
+            st.success("Perfeito! São 6 estrelas. ⭐" if qtd == 6 else "Conte mais uma vez.")
+
+    elif jogo == "✅ Verdadeiro ou falso":
+        st.subheader("✅ Verdadeiro ou falso")
+        vf = st.radio("A lua aparece no céu à noite.", ["Verdadeiro", "Falso"], key="vf1")
+        if st.button("Conferir resposta", key="btn_vf"):
+            st.success("Correto! 🌙" if vf == "Verdadeiro" else "Tente novamente.")
+
+    elif jogo == "🎯 Acerte a sequência":
+        st.subheader("🎯 Acerte a sequência")
+        st.write("🌙 ⭐ 🌙 ⭐ ___")
+        seq = st.radio("Qual vem depois?", ["🌙", "⭐", "🐰"], key="seq_simbolo")
+        if st.button("Conferir sequência", key="btn_seq_simbolo"):
+            st.success("Muito bem! A sequência continua com 🌙" if seq == "🌙" else "Observe o padrão e tente de novo.")
+
 
 with tabs[5]:
     st.header("🎨 Desenhos para colorir")
