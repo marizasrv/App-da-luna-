@@ -77,89 +77,139 @@ def narrar_texto(texto, titulo="História da Luna", perfil="narradora"):
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(180deg, #2b0f45 0%, #5c2d91 45%, #8d5fd3 100%);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,.12) 0 2px, transparent 3px),
+      radial-gradient(circle at 78% 14%, rgba(255,255,255,.10) 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 42% 70%, rgba(255,255,255,.08) 0 1.5px, transparent 2.5px),
+      linear-gradient(180deg, #2a1046 0%, #5e3097 48%, #8d63cf 100%);
+    background-size: 180px 180px, 220px 220px, 260px 260px, auto;
     color: #ffffff;
 }
 
 .block-container {
-    padding-top: 1.2rem;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
-h1, h2, h3 {
-    color: #ffe28a !important;
-    font-weight: 800 !important;
+h1 {
+    color: #ffe79c !important;
+    font-weight: 900 !important;
+    font-size: 2.15rem !important;
+    line-height: 1.15 !important;
+}
+h2, h3 {
+    color: #ffe79c !important;
+    font-weight: 850 !important;
 }
 
 p, li, label, div, span {
     color: #ffffff !important;
-    font-size: 18px !important;
 }
 
-small, .stCaption {
-    color: #f4eaff !important;
-    font-size: 15px !important;
+.stCaption, small {
+    color: #f8f1ff !important;
+    opacity: 1 !important;
+    font-size: 0.98rem !important;
+    font-weight: 600 !important;
 }
 
 .luna-card {
-    padding: 16px 18px;
-    border-radius: 18px;
-    background: rgba(255,255,255,.14);
-    margin: 10px 0 16px 0;
-    border: 1px solid rgba(255,255,255,.22);
+    padding: 18px 18px;
+    border-radius: 20px;
+    background: rgba(234, 215, 255, .20);
+    margin: 12px 0 18px 0;
+    border: 1.5px solid rgba(255,255,255,.30);
+    box-shadow: 0 8px 22px rgba(27, 9, 50, .18);
+}
+
+.luna-card b {
+    font-size: 1.2rem !important;
 }
 
 button, .stButton > button, .stDownloadButton > button {
-    background: #c79bff !important;
-    color: #2b0f45 !important;
-    border-radius: 12px !important;
+    background: #d8b4ff !important;
+    color: #2a1046 !important;
+    border-radius: 14px !important;
     border: none !important;
-    font-weight: 700 !important;
-    font-size: 17px !important;
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    min-height: 44px !important;
 }
 
 div[data-testid="stTabs"] button {
     color: #ffffff !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    font-weight: 750 !important;
+    padding-left: 0.45rem !important;
+    padding-right: 0.45rem !important;
+    white-space: nowrap !important;
+}
+
+div[data-testid="stTabs"] {
+    overflow-x: auto !important;
 }
 
 div[data-testid="stRadio"] label,
 div[data-testid="stCheckbox"] label {
-    font-size: 18px !important;
-    font-weight: 600 !important;
+    font-size: 1rem !important;
+    font-weight: 650 !important;
     color: #ffffff !important;
 }
 
 input, textarea {
-    font-size: 18px !important;
-    color: #2b0f45 !important;
+    font-size: 1rem !important;
+    color: #2a1046 !important;
     background-color: #ffffff !important;
 }
 
 div[data-testid="stTextInput"] input,
 div[data-testid="stNumberInput"] input {
-    font-size: 18px !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
 }
 
 pre, code {
-    color: #2b0f45 !important;
-    background: #f3e8ff !important;
-    font-size: 17px !important;
+    color: #2a1046 !important;
+    background: #f5ecff !important;
+    font-size: 1rem !important;
     border-radius: 10px !important;
 }
 
 [data-testid="stFileUploader"] {
-    background: rgba(255,255,255,.10);
-    border-radius: 14px;
+    background: rgba(255,255,255,.12);
+    border-radius: 16px;
     padding: 10px;
+    border: 1px solid rgba(255,255,255,.22);
+}
+
+@media (max-width: 700px) {
+    h1 { font-size: 1.8rem !important; }
+    h2 { font-size: 1.45rem !important; }
+    h3 { font-size: 1.2rem !important; }
+
+    .block-container {
+        padding-left: .75rem !important;
+        padding-right: .75rem !important;
+    }
+
+    div[data-testid="stTabs"] button {
+        font-size: 0.86rem !important;
+        padding-left: .32rem !important;
+        padding-right: .32rem !important;
+    }
+
+    .luna-card {
+        padding: 15px 15px !important;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
+, unsafe_allow_html=True)
 
 st.title("🌙 Mundo da Luna")
 st.subheader("Atividades escolares, desenhos para colorir, histórias e mídia da Luna")
-st.caption("Tema lilás/roxo com letras maiores e mais visíveis.")
+st.caption("✨ Tema lilás e roxo, com letras grandes e leitura fácil no celular.")
 
 tabs = st.tabs([
     "🏠 Início",
