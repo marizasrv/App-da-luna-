@@ -205,7 +205,6 @@ pre, code {
 }
 </style>
 """, unsafe_allow_html=True)
-, unsafe_allow_html=True)
 
 st.title("🌙 Mundo da Luna")
 st.subheader("Atividades escolares, desenhos para colorir, histórias e mídia da Luna")
