@@ -1,10 +1,55 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from pathlib import Path
 from PIL import Image
 import io, random
 
 st.set_page_config(page_title="Mundo da Luna", page_icon="🌙", layout="wide")
+
 ASSETS = Path(__file__).parent / "assets"
+
+def narrar_texto(texto, titulo="História da Luna"):
+    # Narração no próprio navegador usando Web Speech API.
+    safe_text = texto.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+    safe_title = titulo.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+    html = f"""
+    <div style="font-family: sans-serif; padding: 8px 0;">
+      <button onclick="falar()" style="
+        background:#7b4bb7;color:white;border:none;border-radius:12px;
+        padding:10px 16px;font-size:16px;cursor:pointer;margin-right:8px;">
+        ▶️ Ouvir história
+      </button>
+      <button onclick="parar()" style="
+        background:#4b2675;color:white;border:none;border-radius:12px;
+        padding:10px 16px;font-size:16px;cursor:pointer;">
+        ⏹️ Parar
+      </button>
+    </div>
+    <script>
+      const texto = `{safe_text}`;
+      const titulo = `{safe_title}`;
+      function escolherVoz() {{
+        const vozes = window.speechSynthesis.getVoices();
+        let v = vozes.find(x => x.lang && x.lang.toLowerCase().startsWith('pt-br'));
+        if (!v) v = vozes.find(x => x.lang && x.lang.toLowerCase().startsWith('pt'));
+        return v || null;
+      }}
+      function falar() {{
+        window.speechSynthesis.cancel();
+        const fala = new SpeechSynthesisUtterance(texto);
+        fala.lang = 'pt-BR';
+        fala.rate = 0.88;
+        fala.pitch = 1.08;
+        const voz = escolherVoz();
+        if (voz) fala.voice = voz;
+        window.speechSynthesis.speak(fala);
+      }}
+      function parar() {{
+        window.speechSynthesis.cancel();
+      }}
+    </script>
+    """
+    components.html(html, height=70)
 
 st.markdown("""
 <style>
@@ -155,6 +200,10 @@ with tabs[5]:
     choice = st.selectbox("Escolha uma história:", list(stories.keys()))
     st.markdown(f"### {choice}")
     st.write(stories[choice])
+
+    st.markdown("#### 🔊 Narração")
+    st.caption("Toque em “Ouvir história” para o celular ou computador ler a história em português.")
+    narrar_texto(stories[choice], choice)
 
 with tabs[6]:
     st.header("📸 Fotos e vídeos da Luna")
