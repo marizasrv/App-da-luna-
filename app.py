@@ -8,16 +8,26 @@ st.set_page_config(page_title="Mundo da Luna", page_icon="🌙", layout="wide")
 
 ASSETS = Path(__file__).parent / "assets"
 
-def narrar_texto(texto, titulo="História da Luna"):
+def narrar_texto(texto, titulo="História da Luna", perfil="narradora"):
     # Narração no próprio navegador usando Web Speech API.
     safe_text = texto.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
     safe_title = titulo.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+
+    if perfil == "luna":
+        rate = 1.02
+        pitch = 1.35
+        button_text = "🌙 Ouvir voz da Luna"
+    else:
+        rate = 0.88
+        pitch = 1.02
+        button_text = "📖 Ouvir narradora"
+
     html = f"""
     <div style="font-family: sans-serif; padding: 8px 0;">
       <button onclick="falar()" style="
         background:#7b4bb7;color:white;border:none;border-radius:12px;
         padding:10px 16px;font-size:16px;cursor:pointer;margin-right:8px;">
-        ▶️ Ouvir história
+        ▶️ {button_text}
       </button>
       <button onclick="parar()" style="
         background:#4b2675;color:white;border:none;border-radius:12px;
@@ -27,23 +37,36 @@ def narrar_texto(texto, titulo="História da Luna"):
     </div>
     <script>
       const texto = `{safe_text}`;
-      const titulo = `{safe_title}`;
       function escolherVoz() {{
         const vozes = window.speechSynthesis.getVoices();
-        let v = vozes.find(x => x.lang && x.lang.toLowerCase().startsWith('pt-br'));
-        if (!v) v = vozes.find(x => x.lang && x.lang.toLowerCase().startsWith('pt'));
-        return v || null;
+        let ptbr = vozes.filter(x => x.lang && x.lang.toLowerCase().startsWith('pt-br'));
+        let pt = vozes.filter(x => x.lang && x.lang.toLowerCase().startsWith('pt'));
+        let lista = ptbr.length ? ptbr : pt;
+        if (!lista.length) return null;
+
+        // Para Luna, tenta uma voz feminina/mais leve quando disponível.
+        if ("{perfil}" === "luna") {{
+          let leve = lista.find(x => /female|femin|brasil|google/i.test(x.name));
+          return leve || lista[0];
+        }}
+
+        // Para narradora, prioriza uma voz natural/estável.
+        let natural = lista.find(x => /natural|google|microsoft|brasil/i.test(x.name));
+        return natural || lista[0];
       }}
+
       function falar() {{
         window.speechSynthesis.cancel();
         const fala = new SpeechSynthesisUtterance(texto);
         fala.lang = 'pt-BR';
-        fala.rate = 0.88;
-        fala.pitch = 1.08;
+        fala.rate = {rate};
+        fala.pitch = {pitch};
+        fala.volume = 1.0;
         const voz = escolherVoz();
         if (voz) fala.voice = voz;
         window.speechSynthesis.speak(fala);
       }}
+
       function parar() {{
         window.speechSynthesis.cancel();
       }}
@@ -54,21 +77,89 @@ def narrar_texto(texto, titulo="História da Luna"):
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(180deg,#150a2f 0%,#2d1457 55%,#4a2675 100%);
-    color: white;
+    background: linear-gradient(180deg, #2b0f45 0%, #5c2d91 45%, #8d5fd3 100%);
+    color: #ffffff;
 }
-h1,h2,h3 { color:#ffd86b !important; }
+
+.block-container {
+    padding-top: 1.2rem;
+}
+
+h1, h2, h3 {
+    color: #ffe28a !important;
+    font-weight: 800 !important;
+}
+
+p, li, label, div, span {
+    color: #ffffff !important;
+    font-size: 18px !important;
+}
+
+small, .stCaption {
+    color: #f4eaff !important;
+    font-size: 15px !important;
+}
+
 .luna-card {
-    padding: 14px 16px;
+    padding: 16px 18px;
     border-radius: 18px;
-    background: rgba(255,255,255,.08);
+    background: rgba(255,255,255,.14);
     margin: 10px 0 16px 0;
+    border: 1px solid rgba(255,255,255,.22);
+}
+
+button, .stButton > button, .stDownloadButton > button {
+    background: #c79bff !important;
+    color: #2b0f45 !important;
+    border-radius: 12px !important;
+    border: none !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+}
+
+div[data-testid="stTabs"] button {
+    color: #ffffff !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+}
+
+div[data-testid="stRadio"] label,
+div[data-testid="stCheckbox"] label {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+}
+
+input, textarea {
+    font-size: 18px !important;
+    color: #2b0f45 !important;
+    background-color: #ffffff !important;
+}
+
+div[data-testid="stTextInput"] input,
+div[data-testid="stNumberInput"] input {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+pre, code {
+    color: #2b0f45 !important;
+    background: #f3e8ff !important;
+    font-size: 17px !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="stFileUploader"] {
+    background: rgba(255,255,255,.10);
+    border-radius: 14px;
+    padding: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
 
 st.title("🌙 Mundo da Luna")
 st.subheader("Atividades escolares, desenhos para colorir, histórias e mídia da Luna")
+st.caption("Tema lilás/roxo com letras maiores e mais visíveis.")
 
 tabs = st.tabs([
     "🏠 Início",
@@ -202,8 +293,24 @@ with tabs[5]:
     st.write(stories[choice])
 
     st.markdown("#### 🔊 Narração")
-    st.caption("Toque em “Ouvir história” para o celular ou computador ler a história em português.")
-    narrar_texto(stories[choice], choice)
+    st.caption("Você pode ouvir com voz de narradora ou com uma voz mais infantil para a Luna.")
+
+    modo_voz = st.radio(
+        "Escolha a voz:",
+        ["📖 Narradora suave", "🌙 Luna infantil"],
+        horizontal=True,
+        key="modo_voz_historia"
+    )
+
+    if modo_voz == "🌙 Luna infantil":
+        narrar_texto(stories[choice], choice, perfil="luna")
+    else:
+        narrar_texto(stories[choice], choice, perfil="narradora")
+
+    st.info(
+        "A voz exata depende das vozes disponíveis no celular ou computador. "
+        "O modo Luna usa tom mais agudo e um ritmo um pouco mais leve."
+    )
 
 with tabs[6]:
     st.header("📸 Fotos e vídeos da Luna")
