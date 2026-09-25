@@ -212,6 +212,43 @@ pre, code {
         padding: 15px 15px !important;
     }
 }
+
+/* Ajustes da aba Jogos no celular */
+div[data-baseweb="select"] > div {
+    background: rgba(255,255,255,.96) !important;
+    color: #2a1046 !important;
+    border-radius: 14px !important;
+    min-height: 48px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
+
+div[data-baseweb="popover"] {
+    max-height: 52vh !important;
+}
+
+ul[role="listbox"] {
+    max-height: 48vh !important;
+    overflow-y: auto !important;
+}
+
+li[role="option"] {
+    font-size: 1rem !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    color: #2a1046 !important;
+    background: #ffffff !important;
+}
+
+.game-card {
+    background: rgba(255,255,255,.14);
+    border: 1.5px solid rgba(255,255,255,.28);
+    border-radius: 18px;
+    padding: 16px;
+    margin-top: 10px;
+    margin-bottom: 16px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -308,9 +345,12 @@ with tabs[3]:
 
 with tabs[4]:
     st.header("🧩 Jogos da Luna")
+    st.caption("Escolha um jogo no menu abaixo. Apenas o jogo selecionado aparece na tela.")
+
+    st.markdown('<div class="game-card"><b>Escolha um jogo e brinque com a Luna ✨</b></div>', unsafe_allow_html=True)
 
     jogo = st.selectbox(
-        "Escolha um jogo:",
+        "Jogo:",
         [
             "🔤 Complete a palavra",
             "🔢 Qual número vem depois?",
@@ -334,13 +374,13 @@ with tabs[4]:
                 st.info("Tente outra vez. A letra que falta é S.")
 
     elif jogo == "🔢 Qual número vem depois?":
-        st.subheader("🔢 Qual número vem depois?")
+        st.subheader("🔢 Próximo número")
         numero = st.radio("2, 3, 4, ___", ["5", "6", "7"], key="seq_num")
         if st.button("Conferir sequência", key="btn_seq"):
             st.success("Correto! 🎉" if numero == "5" else "Observe a sequência e tente novamente.")
 
     elif jogo == "🧠 Memória rápida":
-        st.subheader("🧠 Memória rápida")
+        st.subheader("🧠 Memória")
         st.write("Memorize: 🌙 🐰 ⭐ 📖")
         memoria = st.multiselect(
             "Escolha os quatro símbolos que apareceram:",
@@ -355,13 +395,13 @@ with tabs[4]:
                 st.info("Quase! Tente novamente.")
 
     elif jogo == "👀 Qual é diferente?":
-        st.subheader("👀 Qual é diferente?")
+        st.subheader("👀 Encontre o diferente")
         escolha = st.radio("Encontre o símbolo diferente:", ["⭐", "⭐", "🌙", "⭐"], key="diferente")
         if st.button("Conferir", key="btn_diferente"):
             st.success("Isso! A lua é diferente. 🌙" if escolha == "🌙" else "Tente novamente.")
 
     elif jogo == "🔗 Ligue a palavra ao símbolo":
-        st.subheader("🔗 Ligue a palavra ao símbolo")
+        st.subheader("🔗 Palavra e símbolo")
         opcao = st.selectbox("Qual símbolo combina com a palavra COELHO?", ["🌙", "🐰", "📖"], key="liga")
         if st.button("Conferir ligação", key="btn_liga"):
             st.success("Muito bem! 🐰" if opcao == "🐰" else "Tente de novo.")
@@ -380,7 +420,7 @@ with tabs[4]:
             st.success("Correto! 🌙" if vf == "Verdadeiro" else "Tente novamente.")
 
     elif jogo == "🎯 Acerte a sequência":
-        st.subheader("🎯 Acerte a sequência")
+        st.subheader("🎯 Complete a sequência")
         st.write("🌙 ⭐ 🌙 ⭐ ___")
         seq = st.radio("Qual vem depois?", ["🌙", "⭐", "🐰"], key="seq_simbolo")
         if st.button("Conferir sequência", key="btn_seq_simbolo"):
