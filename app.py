@@ -108,7 +108,7 @@ p, li, label, div, span {
 }
 
 .stCaption, small {
-    color: #f8f1ff !important;
+    color: #ffffff !important;
     opacity: 1 !important;
     font-size: 0.98rem !important;
     font-weight: 600 !important;
@@ -184,7 +184,12 @@ pre, code {
 }
 
 @media (max-width: 700px) {
-    h1 { font-size: 1.8rem !important; }
+
+    div[data-testid="stMarkdownContainer"] p {
+        line-height: 1.45 !important;
+    }
+
+    h1 { font-size: 1.55rem !important; margin-top: 0 !important; padding-top: 0 !important; }
     h2 { font-size: 1.45rem !important; }
     h3 { font-size: 1.2rem !important; }
 
@@ -194,9 +199,10 @@ pre, code {
     }
 
     div[data-testid="stTabs"] button {
-        font-size: 0.86rem !important;
-        padding-left: .32rem !important;
-        padding-right: .32rem !important;
+        font-size: 0.78rem !important;
+        padding-left: .24rem !important;
+        padding-right: .24rem !important;
+        min-width: max-content !important;
     }
 
     .luna-card {
@@ -208,7 +214,7 @@ pre, code {
 
 st.title("🌙 Mundo da Luna")
 st.subheader("Atividades escolares, desenhos para colorir, histórias e mídia da Luna")
-st.caption("✨ Tema lilás e roxo, com letras grandes e leitura fácil no celular.")
+st.caption("✨ Tema lilás e roxo, com leitura fácil no celular.")
 
 tabs = st.tabs([
     "🏠 Início",
