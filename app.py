@@ -249,6 +249,44 @@ li[role="option"] {
     margin-bottom: 16px;
 }
 
+
+/* Letras mais escuras nos campos claros */
+div[data-baseweb="select"] > div,
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] input,
+ul[role="listbox"],
+li[role="option"] {
+    color: #2a1046 !important;
+    font-weight: 800 !important;
+}
+
+input, textarea,
+div[data-testid="stTextInput"] input,
+div[data-testid="stNumberInput"] input {
+    color: #2a1046 !important;
+    font-weight: 800 !important;
+    background: #ffffff !important;
+}
+
+.stButton > button,
+.stDownloadButton > button {
+    color: #2a1046 !important;
+    font-weight: 800 !important;
+}
+
+[data-testid="stFileUploader"] label,
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploader"] p {
+    color: #2a1046 !important;
+    font-weight: 700 !important;
+}
+
+/* Mantém textos sobre o fundo roxo claros */
+.stApp h1, .stApp h2, .stApp h3,
+.stApp p, .stApp label {
+    text-shadow: none !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -429,13 +467,21 @@ with tabs[4]:
 
 with tabs[5]:
     st.header("🎨 Desenhos para colorir")
-    st.write("Escolha um desenho, abra e salve para imprimir ou colorir.")
+    st.write("Escolha entre 13 desenhos da Luna para baixar, imprimir e colorir.")
     coloring = [
-        ("Luna e o Livro Mágico","colorir_livro.png"),
-        ("Luna e o Portal Mágico","colorir_portal.png"),
-        ("Luna e o Mapa Estelar","colorir_mapa.png"),
-        ("Luna no Jardim Lunar","colorir_jardim.png"),
-        ("Luna na Varanda Encantada","colorir_varanda.png"),
+        ('Luna e o Livro Mágico', 'colorir_livro.png'),
+        ('Luna e o Portal Mágico', 'colorir_portal.png'),
+        ('Luna e o Mapa Estelar', 'colorir_mapa.png'),
+        ('Luna no Jardim Lunar', 'colorir_jardim.png'),
+        ('Luna na Varanda Encantada', 'colorir_varanda.png'),
+        ('Luna na Floresta Encantada', 'colorir_06.png'),
+        ('Luna e o Coelhinho no Jardim', 'colorir_07.png'),
+        ('Luna sob as Estrelas', 'colorir_08.png'),
+        ('Luna e o Jardim das Estrelas', 'colorir_09.png'),
+        ('Luna na Fonte Encantada', 'colorir_10.png'),
+        ('Luna no Jardim Estelar', 'colorir_11.png'),
+        ('O Portal do Castelo', 'colorir_12.png'),
+        ('A Biblioteca Encantada', 'colorir_13.png'),
     ]
     for title, fn in coloring:
         p = ASSETS/fn
