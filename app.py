@@ -213,7 +213,7 @@ pre, code {
 """, unsafe_allow_html=True)
 
 st.title("🌙 Mundo da Luna")
-st.subheader("Atividades escolares, desenhos para colorir, histórias e mídia da Luna")
+st.subheader("Atividades escolares, jogos, desenhos para colorir, histórias e mídia da Luna")
 st.caption("✨ Tema lilás e roxo, com leitura fácil no celular.")
 
 tabs = st.tabs([
@@ -221,6 +221,7 @@ tabs = st.tabs([
     "✏️ Alfabetização",
     "🔢 Matemática",
     "🌍 Conhecimentos",
+    "🧩 Jogos",
     "🎨 Colorir",
     "📚 Histórias para dormir",
     "📸 Fotos e vídeos"
@@ -255,6 +256,18 @@ with tabs[1]:
     if st.button("Ver resposta", key="resp_l"):
         st.success("Correto! 🌙" if r == "Lua" else "Tente novamente.")
 
+    st.divider()
+    st.subheader("📝 Sílabas")
+    silaba = st.radio("Qual sílaba completa COE__O?", ["LHI", "LHO", "LHA"], key="silaba_coelho")
+    if st.button("Corrigir sílaba", key="corrigir_silaba"):
+        st.success("Muito bem! COELHO 🐰" if silaba == "LHO" else "Tente novamente.")
+
+    st.divider()
+    st.subheader("🔠 Vogais")
+    vogal = st.radio("Qual destas letras é uma vogal?", ["B", "A", "T"], key="vogal")
+    if st.button("Corrigir vogal", key="corrigir_vogal"):
+        st.success("Correto! A é uma vogal. ⭐" if vogal == "A" else "Tente novamente.")
+
 with tabs[2]:
     st.header("🔢 Matemática")
     st.write("Resolva as continhas:")
@@ -272,6 +285,13 @@ with tabs[2]:
     if st.button("Conferir estrelas"):
         st.success("Muito bem! ⭐" if qtd == 5 else "Conte mais uma vez.")
 
+    st.divider()
+    st.subheader("🍎 Probleminha")
+    st.write("Luna tinha 3 estrelas e encontrou mais 2. Quantas estrelas ela tem agora?")
+    resposta = st.number_input("Resposta:", min_value=0, max_value=20, step=1, key="problema_estrelas")
+    if st.button("Corrigir probleminha", key="corrigir_problema"):
+        st.success("Isso! 3 + 2 = 5 ⭐" if resposta == 5 else "Tente novamente.")
+
 with tabs[3]:
     st.header("🌍 Conhecimentos")
     q1 = st.radio("Qual aparece no céu à noite?", ["Lua", "Árvore", "Livro"], key="c1")
@@ -281,7 +301,45 @@ with tabs[3]:
         score = int(q1=="Lua") + int(q2=="Coelho") + int(q3=="Biblioteca")
         st.success(f"Você acertou {score} de 3! 🌟")
 
+
 with tabs[4]:
+    st.header("🧩 Jogos da Luna")
+
+    st.subheader("🔤 Complete a palavra")
+    palavra = st.text_input("Complete: E _ T R E L A", key="jogo_palavra")
+    if st.button("Conferir palavra", key="btn_palavra"):
+        if palavra.strip().upper() == "S":
+            st.success("Muito bem! ⭐ A palavra é ESTRELA.")
+        else:
+            st.info("Tente outra vez. A letra que falta vem depois do E.")
+
+    st.divider()
+
+    st.subheader("🔢 Qual número vem depois?")
+    numero = st.radio("2, 3, 4, ___", ["5", "6", "7"], key="seq_num")
+    if st.button("Conferir sequência", key="btn_seq"):
+        if numero == "5":
+            st.success("Correto! 🎉")
+        else:
+            st.info("Observe a sequência e tente novamente.")
+
+    st.divider()
+
+    st.subheader("🌙 Jogo rápido de memória")
+    st.write("Memorize: 🌙 🐰 ⭐ 📖")
+    memoria = st.multiselect(
+        "Agora escolha os quatro símbolos que apareceram:",
+        ["🌙", "🐰", "⭐", "📖", "🍎", "🚗"],
+        key="memoria_rapida"
+    )
+    if st.button("Ver resultado da memória", key="btn_mem"):
+        certos = {"🌙", "🐰", "⭐", "📖"}
+        if set(memoria) == certos:
+            st.success("Parabéns! Você lembrou de todos. 🧠✨")
+        else:
+            st.info("Quase! Tente lembrar dos símbolos da Luna.")
+
+with tabs[5]:
     st.header("🎨 Desenhos para colorir")
     st.write("Escolha um desenho, abra e salve para imprimir ou colorir.")
     coloring = [
@@ -305,7 +363,7 @@ with tabs[4]:
                 key=f"down_{fn}"
             )
 
-with tabs[5]:
+with tabs[6]:
     st.header("📚 Histórias para dormir")
 
     stories = {
@@ -341,6 +399,24 @@ with tabs[5]:
         Luna abriu seu livro mágico e uma luz dourada tocou a água.
         A fonte voltou a brilhar e todas as estrelas-flor se acenderam.
         Antes de partir, uma estrela pousou por um instante sobre o livro de Luna e iluminou seu caminho de volta para casa."""
+,
+
+        "🌌 Luna e a Ponte de Nuvens":
+        """Numa noite tranquila, Luna viu uma pequena ponte de nuvens aparecer diante da janela.
+        Ela e o coelhinho atravessaram devagar e chegaram a um céu cheio de estrelas sonolentas.
+        Cada estrela precisava encontrar seu lugar antes de dormir.
+        Luna ajudou uma a uma, até que todo o céu ficou organizado e brilhante.
+        Quando voltou para casa, o coelhinho já bocejava.
+        Luna fechou o livro mágico e os dois adormeceram sob a luz suave da lua.""",
+
+        "🕯️ Luna e a Luz do Castelo":
+        """O castelo estava escuro e silencioso quando Luna chegou.
+        A princesa contou que a pequena luz da torre havia desaparecido.
+        Luna e o coelhinho subiram as escadas em silêncio.
+        No alto, encontraram uma chama minúscula escondida dentro de uma lanterna.
+        Luna aproximou o livro mágico e a luz cresceu devagar, iluminando todo o castelo.
+        A princesa sorriu, o coelhinho se aconchegou e a noite ficou calma outra vez."""
+
     }
 
     choice = st.selectbox("Escolha uma história:", list(stories.keys()))
@@ -367,7 +443,7 @@ with tabs[5]:
         "O modo Luna usa tom mais agudo e um ritmo um pouco mais leve."
     )
 
-with tabs[6]:
+with tabs[7]:
     st.header("📸 Fotos e vídeos da Luna")
     st.write("Aqui você pode enviar fotos e vídeos da Luna para ver dentro do app.")
 
