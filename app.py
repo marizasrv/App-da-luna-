@@ -8,8 +8,8 @@ import io, random, json
 
 st.set_page_config(page_title="Mundo da Luna", page_icon="🌙", layout="wide")
 
-if "home_destino" not in st.session_state:
-    st.session_state["home_destino"] = None
+if "pagina" not in st.session_state:
+    st.session_state["pagina"] = "Inicio"
 
 
 ASSETS = Path(__file__).parent / "assets"
@@ -296,20 +296,32 @@ div[data-baseweb="select"] > div {
 
 
 st.markdown('<div class="top-space"></div>', unsafe_allow_html=True)
-tabs = st.tabs([
-    "🏠 Início",
-    "✏️ Alfabetização",
-    "🔢 Matemática",
-    "🌍 Conhecimentos",
-    "🧩 Jogos",
-    "📚 Histórias para dormir",
-    "📸 Fotos e vídeos"
-])
 
+# Navegação principal V28
+nav1, nav2, nav3, nav4 = st.columns(4, gap="small")
+with nav1:
+    if st.button("🏠 Início", key="nav_inicio", use_container_width=True):
+        st.session_state["pagina"] = "Inicio"
+        st.rerun()
+with nav2:
+    if st.button("🎮 Jogos", key="nav_jogos", use_container_width=True):
+        st.session_state["pagina"] = "Jogos"
+        st.rerun()
+with nav3:
+    if st.button("✏️ Atividades", key="nav_atividades", use_container_width=True):
+        st.session_state["pagina"] = "Alfabetizacao"
+        st.rerun()
+with nav4:
+    if st.button("📚 Histórias", key="nav_historias", use_container_width=True):
+        st.session_state["pagina"] = "Historias"
+        st.rerun()
 
-with tabs[0]:
+if st.session_state["pagina"] != "Inicio":
+    st.caption("💜 Use os botões acima para trocar de área ou voltar ao Início.")
+
+if st.session_state["pagina"] == "Inicio":
     st.markdown('<div class="home-grid-title">✨ Escolha uma aventura ✨</div>', unsafe_allow_html=True)
-    st.markdown('<div class="home-nav-note">Toque em um dos cartões abaixo. Depois use as abas no alto para entrar na área escolhida.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="home-nav-note">Toque em um dos cartões abaixo para entrar direto na área escolhida.</div>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2, gap="small")
     with col1:
@@ -321,8 +333,8 @@ with tabs[0]:
         </div>
         """, unsafe_allow_html=True)
         if st.button("Entrar em Jogos ➜", key="home_jogos", use_container_width=True):
-            st.session_state["home_destino"] = "Jogos"
-            st.success("Abra a aba 🧩 Jogos no alto.")
+            st.session_state["pagina"] = "Jogos"
+            st.rerun()
 
         st.markdown("""
         <div class="home-card stories">
@@ -332,8 +344,8 @@ with tabs[0]:
         </div>
         """, unsafe_allow_html=True)
         if st.button("Ouvir Histórias ➜", key="home_historias", use_container_width=True):
-            st.session_state["home_destino"] = "Histórias"
-            st.success("Abra a aba 📚 Histórias para dormir no alto.")
+            st.session_state["pagina"] = "Historias"
+            st.rerun()
 
     with col2:
         st.markdown("""
@@ -344,8 +356,8 @@ with tabs[0]:
         </div>
         """, unsafe_allow_html=True)
         if st.button("Ver Atividades ➜", key="home_atividades", use_container_width=True):
-            st.session_state["home_destino"] = "Atividades"
-            st.success("Abra a aba ✏️ Alfabetização no alto.")
+            st.session_state["pagina"] = "Alfabetizacao"
+            st.rerun()
 
         st.markdown("""
         <div class="home-card learn">
@@ -355,13 +367,45 @@ with tabs[0]:
         </div>
         """, unsafe_allow_html=True)
         if st.button("Aprender Agora ➜", key="home_aprender", use_container_width=True):
-            st.session_state["home_destino"] = "Aprender"
-            st.success("Use as abas 🔢 Matemática e 🌍 Conhecimentos no alto.")
+            st.session_state["pagina"] = "Aprender"
+            st.rerun()
 
     st.markdown("---")
     st.caption("💜 O restante do app continua igual e funcionando como na versão anterior.")
 
-with tabs[1]:
+
+if st.session_state["pagina"] == "Aprender":
+    st.header("🔤 Aprender brincando")
+    st.write("Escolha o que você quer praticar:")
+    c1, c2 = st.columns(2, gap="small")
+    with c1:
+        st.markdown("""
+        <div class="home-card learn">
+            <div class="icon">🔢</div>
+            <div class="title">Matemática</div>
+            <div class="desc">Continhas, números e desafios.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Abrir Matemática ➜", key="aprender_matematica", use_container_width=True):
+            st.session_state["pagina"] = "Matematica"
+            st.rerun()
+    with c2:
+        st.markdown("""
+        <div class="home-card activities">
+            <div class="icon">🌍</div>
+            <div class="title">Descobertas</div>
+            <div class="desc">Lua, animais, livros e conhecimentos.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Abrir Descobertas ➜", key="aprender_conhecimentos", use_container_width=True):
+            st.session_state["pagina"] = "Conhecimentos"
+            st.rerun()
+
+    if st.button("📸 Fotos e vídeos", key="aprender_midia", use_container_width=True):
+        st.session_state["pagina"] = "Midia"
+        st.rerun()
+
+if st.session_state["pagina"] == "Alfabetizacao":
     st.header("✏️ Alfabetização")
     st.write("Complete as palavras:")
     a1 = st.text_input("L_NA", key="alf1")
@@ -392,7 +436,11 @@ with tabs[1]:
     if st.button("Corrigir vogal", key="corrigir_vogal"):
         st.success("Correto! A é uma vogal. ⭐" if vogal == "A" else "Tente novamente.")
 
-with tabs[2]:
+if st.session_state["pagina"] == "Matematica":
+    if st.button("← Voltar para Aprender brincando", key="back_aprender_482779"):
+        st.session_state["pagina"] = "Aprender"
+        st.rerun()
+
     st.header("🔢 Matemática")
     st.write("Resolva as continhas:")
     n1 = st.number_input("2 + 3 =", min_value=0, max_value=20, step=1, key="m1")
@@ -416,7 +464,11 @@ with tabs[2]:
     if st.button("Corrigir probleminha", key="corrigir_problema"):
         st.success("Isso! 3 + 2 = 5 ⭐" if resposta == 5 else "Tente novamente.")
 
-with tabs[3]:
+if st.session_state["pagina"] == "Conhecimentos":
+    if st.button("← Voltar para Aprender brincando", key="back_aprender_484117"):
+        st.session_state["pagina"] = "Aprender"
+        st.rerun()
+
     st.header("🌍 Conhecimentos")
     q1 = st.radio("Qual aparece no céu à noite?", ["Lua", "Árvore", "Livro"], key="c1")
     q2 = st.radio("Qual animal acompanha Luna?", ["Coelho", "Peixe", "Leão"], key="c2")
@@ -427,7 +479,7 @@ with tabs[3]:
 
 
 
-with tabs[4]:
+if st.session_state["pagina"] == "Jogos":
     st.header("🧩 Jogos da Luna")
     st.caption("Escolha um jogo no menu abaixo. Apenas o jogo selecionado aparece na tela.")
 
@@ -544,7 +596,7 @@ with tabs[4]:
             else:
                 st.info("Pense em quem anda pelo jardim com patinhas.")
 
-with tabs[5]:
+if st.session_state["pagina"] == "Historias":
     st.header("📚 Histórias para dormir")
 
     stories = {
@@ -624,7 +676,11 @@ with tabs[5]:
         "O modo Luna usa tom mais agudo e um ritmo um pouco mais leve."
     )
 
-with tabs[6]:
+if st.session_state["pagina"] == "Midia":
+    if st.button("← Voltar para Aprender brincando", key="back_aprender_494123"):
+        st.session_state["pagina"] = "Aprender"
+        st.rerun()
+
     st.header("📸 Fotos e vídeos da Luna")
     st.write("Aqui você pode enviar fotos e vídeos da Luna para ver dentro do app.")
 
